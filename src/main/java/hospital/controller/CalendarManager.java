@@ -2,8 +2,8 @@ package controller;
 import staffClasses.Employee;
 import staffClasses.Doctors;
 import staffClasses.MaintenanceStaff;
-import schedule.Shift
-import schedule.LeaveRequest
+import schedule.Shift;
+import schedule.LeaveRequest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
