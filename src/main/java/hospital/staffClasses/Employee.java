@@ -45,7 +45,10 @@ public abstract class Employee {
     public void setRole(String role) {
         this.role = role;
     }
-
+    //final method
+    public final void displayEmployeeID() {
+        System.out.println("Employee ID: " + id);
+    }
     // Abstract methods
     public abstract String getDetails();
 
