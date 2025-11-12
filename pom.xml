@@ -41,15 +41,6 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
 
-        <!-- 
-          REMOVING THIS:
-          We no longer need the temporary in-memory database
-          because we are connecting to your friend's real database.
-        <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-        </dependency>
-        -->
         
         <dependency>
             <groupId>com.github.cdimascio</groupId>
