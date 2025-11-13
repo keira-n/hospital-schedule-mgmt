@@ -77,7 +77,7 @@ function EmployeeForm() {
         <input
           type="number"
           value={id}
-          onChange={(e) => setId(e.targe.value)}
+          onChange={(e) => setId(e.target.value)}
           required
         />
       </div>
