@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Document(collection = "shifts") 
+@Document(collection = "shift") 
 public class Shift
 {
     @Id
