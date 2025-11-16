@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-// This collection name MUST match your database
 @Document(collection = "employee")
 
 @JsonTypeInfo(
@@ -14,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
         property = "role"
 )
 @JsonSubTypes({
-        // ADDED ALL THE DOCTOR SUBTYPES
         @JsonSubTypes.Type(value = Doctor.class, name = "Doctor"),
         @JsonSubTypes.Type(value = GP.class, name = "GP"),
         @JsonSubTypes.Type(value = Cardiologist.class, name = "Cardiologist"),
@@ -29,11 +27,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
         @JsonSubTypes.Type(value = MaintenanceStaff.class, name = "Maintenance Staff")
 })
 
-public abstract class Employee {
+
+public abstract class Employee implements WorkSchedule {
 
     @Id
     private int id;
-
     private String name;
     private String department;
     private String role;
@@ -48,7 +46,7 @@ public abstract class Employee {
     public Employee() {
     }
 
-    // --- Getters and Setters ---
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -85,8 +83,9 @@ public abstract class Employee {
         System.out.println("Employee ID: " + id);
     }
 
+    @Override
     public abstract String getDetails();
-
+    @Override
     public abstract String getWorkingDays();
 
     @Override

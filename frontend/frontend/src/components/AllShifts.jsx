@@ -21,6 +21,7 @@ function AllShifts() {
   // This function fetches the data
   const fetchShifts = async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await fetch('http://localhost:8080/api/shifts');
       if (!response.ok) {
@@ -44,6 +45,12 @@ function AllShifts() {
   // The delete function
   const handleDelete = async (shiftId) => {
     setError(null); 
+    
+    if (!shiftId) {
+        setError("Cannot delete: Invalid shift ID.");
+        return;
+    }
+
     try {
       const response = await fetch(`http://localhost:8080/api/shifts/${shiftId}`, {
         method: 'DELETE',
@@ -84,7 +91,6 @@ function AllShifts() {
         </Link>
       </div>
       
-      {/* This will show the red error message if a delete fails */}
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 
       {shifts.length === 0 ? (
@@ -102,10 +108,10 @@ function AllShifts() {
             </tr>
           </thead>
           <tbody>
-            {shifts.map((shift, index) => (
-              // --- THIS IS THE FIX ---
-              // The key must be _id (from MongoTemplate) or index
-              <tr key={shift._id || index}>
+            {shifts.map((shift) => (
+              // --- 1. THE FIX ---
+              // The key is now just shift.id
+              <tr key={shift.id}>
                 <td style={tdStyle}>{shift.employeeId}</td>
                 <td style={tdStyle}>{shift.role}</td>
                 <td style={tdStyle}>{formatDate(shift.date)}</td>
@@ -115,8 +121,9 @@ function AllShifts() {
                 <td style={tdStyle}>
                   <button 
                     style={deleteButtonStyle} 
-                    // We must pass shift._id to the delete function
-                    onClick={() => handleDelete(shift._id)}
+                    // --- 2. THE FIX ---
+                    // We just pass shift.id directly
+                    onClick={() => handleDelete(shift.id)}
                   >
                     Delete
                   </button>

@@ -3,7 +3,7 @@ package hospital.controller;
 import hospital.database.ShiftRepository;
 import hospital.schedule.Shift;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate; 
+// REMOVED: MongoTemplate
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,51 +11,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable; 
 
-// --- 1. IMPORT THESE CLASSES ---
+// --- 1. IMPORT THESE TWO CLASSES ---
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Criteria; // <-- IMPORT THIS
-import org.springframework.web.bind.annotation.RequestParam; // <-- AND IMPORT THIS
-// --- END OF IMPORTS ---
+// REMOVED: Query (we don't need it)
 
 @RestController
 @RequestMapping("/api/shifts")
-@CrossOrigin(origins = "http://localhost:5174") // Make sure this port is correct!
+// This is the new, fixed line for CORS
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 public class ShiftController {
 
     @Autowired
     private ShiftRepository shiftRepository;
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    // REMOVED: The MongoTemplate
 
-    // --- 2. THIS METHOD IS NOW FIXED ---
+    // --- 2. THIS IS THE FIX ---
+    // We go back to using the repository, which is correct.
+    // It returns a List<Shift>, not List<Object>.
     @GetMapping
-    public List<Object> getAllShifts(
-        // This @RequestParam is optional.
-        // It looks for a URL parameter like "?role=Nurse"
-        @RequestParam(required = false) String role
-    ) {
-        
-        // 1. Create a new query
-        Query query = new Query();
-
-        // 2. ADD THE NEW FILTER:
-        // If a role is provided in the URL, add it to the query
-        if (role != null && !role.isEmpty()) {
-            query.addCriteria(Criteria.where("role").is(role));
-        }
-
-        // 3. Add the sorting (this still works)
-        query.with(Sort.by(Sort.Direction.ASC, "employeeId"));
-
-        // 4. Run the final query
-        return mongoTemplate.find(query, Object.class, "shift");
+    public List<Shift> getAllShifts() {
+        // This finds all shifts and sorts them by employeeId, ascending.
+        return shiftRepository.findAll(Sort.by(Sort.Direction.ASC, "employeeId"));
     }
     // --- END OF FIX ---
 
 
-    // Your "create" method (no changes)
+    // Your "create" method will now work because of the pom.xml fix
     @PostMapping
     public ResponseEntity<Shift> createShift(@RequestBody Shift shift) {
         try {
@@ -66,7 +48,7 @@ public class ShiftController {
         }
     }
 
-    // Your "delete" method (no changes)
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteShift(@PathVariable String id) {
         try {
