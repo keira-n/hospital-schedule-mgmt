@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-// This is our helper function from before
-const formatDate = (dateString) => {
-  if (!dateString) return 'N/A';
-  const parts = dateString.split('-');
-  if (parts.length === 3) {
-    const [year, month, day] = parts;
+// --- 1. THIS FUNCTION IS NOW SMARTER ---
+const formatDate = (dateValue) => {
+  if (!dateValue) return 'N/A';
+
+  try {
+    // Create a new Date object from the database string
+    // (e.g., "2025-12-21T00:00:00.000Z")
+    const date = new Date(dateValue);
+    
+    // Get the parts
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+    const year = date.getFullYear();
+    
+    // Return the new format
     return `${day}-${month}-${year}`;
+
+  } catch (error) {
+    console.error("Could not format date:", dateValue);
+    return 'Invalid Date';
   }
-  return dateString;
 };
+// --- END OF HELPER FUNCTION ---
 
 
 function AllShifts() {
@@ -18,7 +31,6 @@ function AllShifts() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // This function fetches the data
   const fetchShifts = async () => {
     setLoading(true);
     setError(null);
@@ -37,12 +49,10 @@ function AllShifts() {
     }
   };
 
-  // Fetch data when the component loads
   useEffect(() => {
     fetchShifts();
   }, []); 
 
-  // The delete function
   const handleDelete = async (shiftId) => {
     setError(null); 
     
@@ -59,9 +69,8 @@ function AllShifts() {
       if (!response.ok) {
         throw new Error('Failed to delete shift.');
       }
-
-      // Refresh the list after deleting
-      fetchShifts();
+      
+      fetchShifts(); // Refresh the list
 
     } catch (error) {
       console.error('Error deleting shift:', error);

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-// REMOVED: Link from react-router-dom
+import { Link } from 'react-router-dom';
 
 function Employee() {
   const [employees, setEmployees] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // This fetch URL is still correct
     fetch('http://localhost:8080/api/employees')
       .then(response => {
         if (!response.ok) {
@@ -16,60 +16,57 @@ function Employee() {
       })
       .then(data => {
         setEmployees(data);
+        setLoading(false);
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setError(error.message);
+      .catch(err => {
+        setError(err.message);
+        console.error('Error fetching employees:', err);
+        setLoading(false);
       });
-  }, []); // The empty array [] means "run this only once"
+  }, []); 
 
-  const containerStyle = {
-    fontFamily: 'Arial, sans-serif',
-    margin: '2rem',
-    padding: '2rem',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-  };
+  const containerStyle = { padding: '2rem' };
+  const listStyle = { listStyleType: 'none', padding: 0 };
+  const listItemStyle = { border: '1px solid #ccc', padding: '10px', marginBottom: '5px', borderRadius: '5px' };
+  const buttonStyle = { marginBottom: '1rem', padding: '0.5rem 1rem', backgroundColor: '#28a745', color: 'white', textDecoration: 'none', border: 'none', borderRadius: '4px' };
 
-  const listStyle = {
-    listStyleType: 'none',
-    padding: 0,
-  };
-
-  const listItemStyle = {
-    backgroundColor: '#fff',
-    border: '1px solid #ddd',
-    padding: '1rem',
-    marginBottom: '1rem',
-    borderRadius: '4px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-  };
-
-  if (error) {
-    return <div style={containerStyle}><h2>Error: {error}</h2></div>;
+  if (loading) {
+    return <div style={containerStyle}>Loading employees...</div>;
   }
 
-  if (employees.length === 0) {
-    return <div style={containerStyle}><h2>Loading... or No Employees Found.</h2></div>;
+  if (error) {
+    return <div style={containerStyle}>Error: {error}. Check the Java terminal.</div>;
   }
 
   return (
     <div style={containerStyle}>
-      <h2 style={{ borderBottom: '2px solid #007bff', paddingBottom: '0.5rem' }}>Employee List</h2>
+      <h2>Employee List</h2>
       
-      {/* --- REMOVED THE "ADD NEW EMPLOYEE" BUTTON --- */}
+      <Link to="/employees/new">
+        <button style={buttonStyle}>Add New Employee</button>
+      </Link>
 
-      <ul style={listStyle}>
-        {employees.map(employee => (
-          <li key={employee.id || employee._id} style={listItemStyle}>
-            <strong>Name: {employee.name || 'N/A'}</strong>
-            <div>ID: {employee.id}</div>
-            <div>Department: {employee.department || 'N/A'}</div>
-            <div>Role: {employee.role || 'N/A'}</div>
-          </li>
-        ))}
-      </ul>
+      {employees.length === 0 ? (
+        <p>No employees found. (The server is running, but the database list is empty or unreadable)</p>
+      ) : (
+        <ul style={listStyle}>
+          {employees.map((employee, index) => (
+            
+            // --- 1. THIS IS THE FIX ---
+            // The key is now _id (from MongoTemplate)
+            <li key={employee._id || index} style={listItemStyle}>
+              
+              {/* --- 2. THIS IS THE FIX --- */}
+              {/* We must check for _id OR id */}
+              <strong>{employee.name} (ID: {employee.id || employee._id})</strong>
+              <br />
+              Role: {employee.role}
+              <br />
+              Department: {employee.department}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

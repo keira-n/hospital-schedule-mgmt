@@ -3,10 +3,14 @@ package hospital.schedule;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+// 1. IMPORT THIS
+import java.util.Date;
 
-@Document(collection = "Shift") 
+// We do NOT need java.time.LocalDate or LocalTime
+// import java.time.LocalDate;
+// import java.time.LocalTime;
+
+@Document(collection = "shift") 
 public class Shift
 {
     @Id
@@ -14,17 +18,21 @@ public class Shift
 
     private int employeeId; 
     
-    private LocalDate date;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    // 2. THIS IS THE FIX:
+    // Change from LocalDate to the old Date object
+    private Date date;
+    
+    // Change from LocalTime to String
+    private String startTime;
+    private String endTime;
+    
     private String role;
 
-    // 3. No-arg constructor (required)
     public Shift() {
     }
 
-    // 4. Constructor (no longer has @Id)
-    public Shift(int employeeId, LocalDate date, LocalTime startTime, LocalTime endTime, String role)
+    // 3. Update the constructor
+    public Shift(int employeeId, Date date, String startTime, String endTime, String role)
     {
         this.employeeId = employeeId; 
         this.date = date;
@@ -35,29 +43,34 @@ public class Shift
 
     // --- Getters and Setters ---
     
-    // Getter/Setter for the NEW String id
-    public String getId() {
-        return id;
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public int getEmployeeId() { return employeeId; }
+    public void setEmployeeId(int employeeId) { this.employeeId = employeeId; }
+
+    // 4. Update Getters/Setters for new types
+    public Date getDate() {
+        return date;
     }
-    public void setId(String id) {
-        this.id = id;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    // Getter/Setter for your employeeId
-    public int getEmployeeId() {
-        return employeeId;
+    public String getStartTime() {
+        return startTime;
     }
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    // All other getters/setters...
-    public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
-    public LocalTime getStartTime() { return startTime; }
-    public void setStartTime(LocalTime startTime) { this.startTime = startTime; }
-    public LocalTime getEndTime() { return endTime; }
-    public void setEndTime(LocalTime endTime) { this.endTime = endTime; }
+    public String getEndTime() {
+        return endTime;
+    }
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+    
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
 }

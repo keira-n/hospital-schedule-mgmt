@@ -3,26 +3,30 @@ package hospital.schedule;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
+// 1. IMPORT THIS
+import java.util.Date;
+// REMOVED: java.time.LocalDate
 
 @Document(collection = "leaveRequest") 
 public class LeaveRequest {
 
     @Id
-    private String id;
+    private String id; 
 
     private int employeeId;
-    private LocalDate startDate; 
-    private LocalDate endDate;
+    
+    // 2. THIS IS THE FIX:
+    private Date startDate; 
+    private Date endDate;
+    
     private String status;
     private String reason;
-
 
     public LeaveRequest() {
     }
     
-    // Constructor
-    public LeaveRequest(int employeeId, LocalDate startDate, LocalDate endDate, String status, String reason)
+    // 3. Update the constructor
+    public LeaveRequest(int employeeId, Date startDate, Date endDate, String status, String reason)
     {
         this.employeeId = employeeId;
         this.startDate = startDate;
@@ -32,48 +36,30 @@ public class LeaveRequest {
     }
 
     // --- Getters and Setters ---
-    public int getEmployeeId()
-    {
-        return employeeId;
-    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
+    public int getEmployeeId() { return employeeId; }
+    public void setEmployeeId(int employeeId) { this.employeeId = employeeId; }
 
-    public LocalDate getStartDate()
-    {
+    // 4. Update Getters/Setters
+    public Date getStartDate() {
         return startDate;
     }
-
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate()
-    {
+    public Date getEndDate() {
         return endDate;
     }
-
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getReason()
-    {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+    
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
 }
