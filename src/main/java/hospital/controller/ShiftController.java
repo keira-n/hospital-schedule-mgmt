@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable; 
 
-// We still need Sort
+// --- 1. IMPORT THESE TWO CLASSES ---
 import org.springframework.data.domain.Sort;
-// REMOVED: Query and Criteria
 
 @RestController
 @RequestMapping("/api/shifts")
@@ -22,28 +21,12 @@ public class ShiftController {
 
     @Autowired
     private ShiftRepository shiftRepository;
-
-    // REMOVED: The MongoTemplate
-
-    // --- THIS IS THE FIX ---
-    // We are back to using the repository. It will now work
-    // because Shift.java matches your database data.
     @GetMapping
-    public List<Shift> getAllShifts(
-        @RequestParam(required = false) String role
-    ) {
-        
-        Sort sort = Sort.by(Sort.Direction.ASC, "employeeId");
-
-        // Note: The filter by "role" is removed for simplicity.
-        // We can add it back later.
-        
-        return shiftRepository.findAll(sort);
+    public List<Shift> getAllShifts() {
+        // This finds all shifts and sorts them by employeeId, ascending
+        return shiftRepository.findAll(Sort.by(Sort.Direction.ASC, "employeeId"));
     }
-    // --- END OF FIX ---
 
-
-    // Your "create" method will now work
     @PostMapping
     public ResponseEntity<Shift> createShift(@RequestBody Shift shift) {
         try {
@@ -54,7 +37,7 @@ public class ShiftController {
         }
     }
 
-    // Your "delete" method will now work
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteShift(@PathVariable String id) {
         try {
