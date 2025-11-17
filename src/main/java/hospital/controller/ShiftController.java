@@ -37,7 +37,6 @@ public class ShiftController {
         }
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteShift(@PathVariable String id) {
         try {
