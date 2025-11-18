@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function PublicLeaveRequest() {
+function LeaveRequestForm() {
   const [employeeId, setEmployeeId] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -113,4 +113,4 @@ function PublicLeaveRequest() {
   );
 }
 
-export default PublicLeaveRequest;
+export default LeaveRequestForm;

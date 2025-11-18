@@ -133,7 +133,11 @@ export default function Dashboard() {
                 <p style={{ color: '#555', fontSize: '1.1rem' }}>Choose an option:</p>
 
                 <div>
-                    <Link to="/shifts">
+                    <Link to="/leaverequestform">
+                        <button style={buttonStyleTertiary}>Leave Request Form</button>
+                    </Link>
+
+                    <Link to="/login">
                         <button style={buttonStyleTertiary}>Leave Request Form</button>
                     </Link>
                 </div>
