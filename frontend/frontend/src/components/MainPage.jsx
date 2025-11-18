@@ -138,7 +138,7 @@ export default function Dashboard() {
                     </Link>
 
                     <Link to="/login">
-                        <button style={buttonStyleTertiary}>Leave Request Form</button>
+                        <button style={buttonStyleTertiary}>Admin Login</button>
                     </Link>
                 </div>
             </div>
