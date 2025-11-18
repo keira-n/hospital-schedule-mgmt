@@ -75,7 +75,7 @@ function Employee() {
 
 
       {employees.length === 0 ? (
-        <p>No employees found. (The server is running, but the database list is empty or unreadable)</p>
+        <p>No employees found.</p>
       ) : (
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
           <thead>

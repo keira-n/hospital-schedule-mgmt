@@ -5,7 +5,6 @@ public class Doctor extends Employee {
     private boolean onDuty;
     private boolean emergencyCall;
 
-    // MODIFIED: No-arg constructor calls super()
     public Doctor() {
         super();
     }
@@ -29,52 +28,33 @@ public class Doctor extends Employee {
         this.emergencyCall = emergencyCall;
     }
 
-    // Getters and setters
-    public String getSpecialtyArea() {
-        return specialtyArea;
-    }
-
-    public void setSpecialtyArea(String specialtyArea) {
-        this.specialtyArea = specialtyArea;
-    }
-
-    public boolean isOnDuty() {
-        return onDuty;
-    }
-
-    public void setOnDuty(boolean onDuty) {
-        this.onDuty = onDuty;
-    }
-
-    public boolean isEmergencyCall() {
-        return emergencyCall;
-    }
-
-    public void setEmergencyCall(boolean emergencyCall) {
-        this.emergencyCall = emergencyCall;
-    }
+    // (All getters/setters are fine)
+    public String getSpecialtyArea() { return specialtyArea; }
+    public void setSpecialtyArea(String specialtyArea) { this.specialtyArea = specialtyArea; }
+    public boolean isOnDuty() { return onDuty; }
+    public void setOnDuty(boolean onDuty) { this.onDuty = onDuty; }
+    public boolean isEmergencyCall() { return emergencyCall; }
+    public void setEmergencyCall(boolean emergencyCall) { this.emergencyCall = emergencyCall; }
 
     @Override
-    public String getDetails() {
+    public String getDetails() { /* (no change) */
         return "Doctor: " + getName() +
                 " Department: " + getDepartment() +
                 " Specialty: " + specialtyArea +
                 " On Duty: " + (onDuty ? "Yes" : "No") +
                 " Emergency Call: " + (emergencyCall ? "Available" : "Not Available");
     }
-
     @Override
-    public String getWorkingDays() {
+    public String getWorkingDays() { /* (no change) */
         return "Doctors typically work 5 days per week with rotating on-call duties.";
     }
-
-    public void markOnDuty(boolean duty) {
+    public void markOnDuty(boolean duty) { /* (no change) */
         this.onDuty = duty;
         System.out.println(getName() + (duty ? " is on duty." : " is off duty."));
     }
 }
 
-// --- All Subclasses Now Have No-Arg Constructors ---
+// --- All Subclasses must also be updated ---
 
 class GP extends Doctor {
     // ADDED: No-arg constructor
