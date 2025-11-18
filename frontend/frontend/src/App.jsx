@@ -4,14 +4,16 @@ import Employee from "./components/Employee.jsx";
 import EmployeeForm from "./components/EmployeeForm.jsx";
 import AllShifts from "./components/AllShifts.jsx"; 
 import AddShiftForm from "./components/AddShiftForm.jsx";
-import AllLeaveRequests from "./components/AllLeaveRequests.jsx"; // <-- 1. IMPORT
+import AllLeaveRequests from "./components/AllLeaveRequests.jsx";
+import MainPage from "./components/MainPage.jsx"
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<MainPage />} />
+          <Route path="/admin" element={<Dashboard />} />
         <Route path="/employees" element={<Employee />} />
         <Route path="/employees/new" element={<EmployeeForm />} />
         <Route path="/shifts" element={<AllShifts />} /> 
