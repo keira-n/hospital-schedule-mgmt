@@ -90,27 +90,12 @@ function AllLeaveRequests() {
     backgroundAttachment: 'fixed', // Keeps background still while scrolling
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingTop: '3rem',
-    paddingBottom: '3rem'
+    alignItems: 'flex-start'
   };
-
-  // 2. Container Style: Modified to be a "card" sitting on top of the background
-  const containerStyle = { 
-    fontFamily: 'Arial, sans-serif', 
-    width: '95%',
-    maxWidth: '1000px', 
-    // Added slight transparency (0.95) so the background fits in better
-    backgroundColor: 'rgba(249, 249, 249, 0.95)', 
-    borderRadius: '12px', 
-    boxShadow: '0 8px 32px rgba(0,0,0,0.15)', // Softer, deeper shadow
-    padding: '2rem',
-    backdropFilter: 'blur(5px)' // Adds a blur effect behind the container (modern glassmorphism)
-  };
-
-  const tableStyle = { width: '100%', borderCollapse: 'collapse', marginTop: '1.5rem' };
-  const thStyle = { backgroundColor: '#007bff', color: 'white', padding: '0.75rem', border: '1px solid #ddd', textAlign: 'left' };
-  const tdStyle = { padding: '0.75rem', border: '1px solid #ddd', backgroundColor: 'rgba(255, 255, 255, 0.8)' };
+  const containerStyle = { padding: '2rem', margin: '2rem', backgroundColor: 'white', borderRadius: '10px', width: '90%', maxWidth: '1000px'};
+  const tableStyle = { width: '100%', borderCollapse: 'collapse', fontSize: '0.95rem' };
+  const thStyle = { padding: '0.75rem', borderBottom: '1px solid #e5e7eb' };
+  const tdStyle = { padding: '0.75rem', textAlign: 'center' };
   
   const getSelectStyle = (status) => ({
     padding: '0.5rem',
@@ -152,30 +137,30 @@ function AllLeaveRequests() {
           <div style={{ overflowX: 'auto' }}> {/* Handle horizontal scroll on small screens */}
             <table style={tableStyle}>
               <thead>
-                <tr>
-                  <th style={thStyle}>Employee ID</th>
-                  <th style={thStyle}>Start Date</th>
-                  <th style={thStyle}>End Date</th>
-                  <th style={thStyle}>Reason</th>
-                  <th style={thStyle}>Status</th>
+                <tr style={{ backgroundColor: '#e6e6e6ff', textAlign: 'center'}}>
+                  <th style={{...thStyle, width: '20%'}}>EMPLOYEE ID</th>
+                  <th style={{...thStyle, width: '20%'}}>START DATE</th>
+                  <th style={{...thStyle, width: '20%'}}>END DATE</th>
+                  <th style={{...thStyle, width: '30%'}}>REASON</th>
+                  <th style={{...thStyle, width: '10%'}}>STATUS</th>
                 </tr>
               </thead>
               <tbody>
                 {requests.map((request) => (
-                  <tr key={request.id}>
+                  <tr key={request.id} style={{ borderBottom: '1px solid #e6e6e6ff' }}>
                     <td style={tdStyle}>{request.employeeId}</td>
                     <td style={tdStyle}>{formatDate(request.startDate)}</td>
                     <td style={tdStyle}>{formatDate(request.endDate)}</td>
-                    <td style={tdStyle}>{request.reason}</td>
+                    <td style={{...tdStyle, textAlign: 'left'}}>{request.reason}</td>
                     <td style={tdStyle}>
                       <select 
                         style={getSelectStyle(request.status)}
                         value={request.status || 'Pending'}
                         onChange={(e) => handleStatusChange(request.id, e.target.value)}
                       >
-                        <option value="Pending">Pending</option>
-                        <option value="Approved">Approved</option>
-                        <option value="Rejected">Rejected</option>
+                        <option style={{backgroundColor: '#fff3cd', color: '#856404'}} value="Pending">Pending</option>
+                        <option style={{backgroundColor: '#d4edda', color: '#155724'}} value="Approved">Approved</option>
+                        <option style={{backgroundColor: '#f8d7da', color: '#721c24'}} value="Rejected">Rejected</option>
                       </select>
                     </td>
                   </tr>

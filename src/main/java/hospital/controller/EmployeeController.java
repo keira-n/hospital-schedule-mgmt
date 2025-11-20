@@ -13,40 +13,42 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DuplicateKeyException;
 import java.util.List;
 
-@RestController 
-@RequestMapping("/api/employees") 
-// This allows both ports
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
-public class EmployeeController {
+@RestController
+@RequestMapping("/api/employees")
+@CrossOrigin(origins = { "http://localhost:5173", "http://localhost:5174" }) 
+public class EmployeeController 
+{
 
-    @Autowired 
+    @Autowired
     private EmployeeRepository employeeRepository;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    // Get all employees
     @GetMapping
     public List<Object> getAllEmployees() {
-        
+
         System.out.println("--- DEBUG: getAllEmployees() method was called! ---");
-        
+
         // Create a new query
         Query query = new Query();
 
-        // Tell the query to sort by your "id" field, Ascending
+        // Sort by id in ascending order
         query.with(Sort.by(Sort.Direction.ASC, "id"));
 
         return mongoTemplate.find(query, Object.class, "employee");
     }
 
-    // Pending
+    // Create a new employee
     @PostMapping
     public ResponseEntity<?> createEmployee(@RequestBody Employee employee) {
         try {
             Employee savedEmployee = employeeRepository.save(employee);
             return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
         } catch (DuplicateKeyException e) {
-            return new ResponseEntity<>("Cannot create Employee, duplicate ID. Please put another ID.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Cannot create Employee, duplicate ID. Please put another ID.",
+                    HttpStatus.CONFLICT);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

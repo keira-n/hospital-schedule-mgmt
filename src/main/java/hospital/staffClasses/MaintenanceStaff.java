@@ -14,7 +14,7 @@ public class MaintenanceStaff extends Employee{
         this.onDuty = false;
     }
 
-    // (All other methods are fine)
+    // --- Getters and Setters ---
     public String getDutyArea() { return dutyArea; }
     public void setDutyArea(String dutyArea) { this.dutyArea = dutyArea; }
     public boolean isOnDuty() { return onDuty; }
@@ -26,11 +26,13 @@ public class MaintenanceStaff extends Employee{
                 + " Duty Area: " + dutyArea
                 + " On Duty: " + (onDuty ? "Yes" : "No");
     }
+
+    // --- Overridden Methods ---
     @Override
-    public String getWorkingDays() { /* (no change) */
+    public String getWorkingDays() {
         return "Maintenance staff work 6 days per week with Sunday off.";
     }
-    public void markOnDuty(boolean duty) { /* (no change) */
+    public void markOnDuty(boolean duty) {
         this.onDuty = duty;
         System.out.println(getName() + " duty status: " + (duty ? "On Duty" : "Off Duty"));
     }

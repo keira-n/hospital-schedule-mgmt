@@ -25,18 +25,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 })
 public abstract class Employee implements WorkSchedule {
 
-    // 1. The MongoDB ID (internal, hidden)
+    // MongoDB ID (internal, hidden)
     @Id
     private String databaseId;
 
-    // 2. Your Employee ID (visible, number)
+    // Employee attributes
     private int id;
-
     private String name;
     private String department;
     private String role;
 
-    // Constructor takes 'int id'
     public Employee(int id, String name, String department, String role) {
         this.id = id;
         this.name = name;
@@ -44,8 +42,7 @@ public abstract class Employee implements WorkSchedule {
         this.role = role;
     }
 
-    public Employee() {
-    }
+    public Employee() {}
 
     // --- Getters and Setters ---
 
@@ -76,6 +73,7 @@ public abstract class Employee implements WorkSchedule {
         System.out.println("Employee ID: " + id);
     }
 
+    // Abstract methods to be implemented by subclasses
     @Override
     public abstract String getDetails();
 

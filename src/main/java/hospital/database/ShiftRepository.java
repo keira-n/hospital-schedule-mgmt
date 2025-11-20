@@ -3,7 +3,6 @@ package hospital.database;
 import hospital.schedule.Shift;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDate;
 import java.util.List;
 

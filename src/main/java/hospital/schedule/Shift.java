@@ -2,13 +2,7 @@ package hospital.schedule;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-// 1. IMPORT THIS
 import java.util.Date;
-
-// We do NOT need java.time.LocalDate or LocalTime
-// import java.time.LocalDate;
-// import java.time.LocalTime;
 
 @Document(collection = "shift") 
 public class Shift
@@ -17,21 +11,13 @@ public class Shift
     private String id; 
 
     private int employeeId; 
-    
-    // 2. THIS IS THE FIX:
-    // Change from LocalDate to the old Date object
     private Date date;
-    
-    // Change from LocalTime to String
     private String startTime;
     private String endTime;
-    
     private String role;
 
-    public Shift() {
-    }
+    public Shift() {}
 
-    // 3. Update the constructor
     public Shift(int employeeId, Date date, String startTime, String endTime, String role)
     {
         this.employeeId = employeeId; 
@@ -49,7 +35,6 @@ public class Shift
     public int getEmployeeId() { return employeeId; }
     public void setEmployeeId(int employeeId) { this.employeeId = employeeId; }
 
-    // 4. Update Getters/Setters for new types
     public Date getDate() {
         return date;
     }

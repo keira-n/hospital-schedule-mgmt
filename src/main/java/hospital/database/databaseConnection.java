@@ -6,7 +6,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import io.github.cdimascio.dotenv.Dotenv;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,7 @@ public class databaseConnection {
 
         String connectionString = dotenv.get("DB_HOST");
 
+        // Create a MongoDB client and connect to the database
         try (MongoClient mongoClient = MongoClients.create(connectionString)) {
 
             MongoDatabase database = mongoClient.getDatabase("hospital");

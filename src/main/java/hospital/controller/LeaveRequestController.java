@@ -13,8 +13,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/leaverequests")
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
-public class LeaveRequestController {
-
+public class LeaveRequestController 
+{
     @Autowired
     private LeaveRequestRepository leaveRequestRepository;
 
@@ -27,6 +27,7 @@ public class LeaveRequestController {
         // -------------------
 
         try {
+            // Set default status to "Pending"
             leaveRequest.setStatus("Pending");
             LeaveRequest savedRequest = leaveRequestRepository.save(leaveRequest);
             
