@@ -57,7 +57,6 @@ function LogIn({ onLogin }) {
 
             </div>
 
-            /* This is the "Log In" button */
             <button type="submit" style={buttonStyle}>Log In</button>
         </form>
     );

@@ -40,11 +40,9 @@ function Employee() {
 
   if (loading) 
     return <div style={containerStyle}>Loading employees...</div>;
-  
 
   if (error) 
     return <div style={containerStyle}>Error: {error}. Check the Java terminal.</div>;
-  
 
   return (
     <div style={containerStyle}>
@@ -73,7 +71,6 @@ function Employee() {
         </Link>
       </div>
 
-
       {employees.length === 0 ? (
         <p>No employees found.</p>
       ) : (
@@ -89,8 +86,10 @@ function Employee() {
 
           <tbody>
             {filteredEmp.map((employee, index) => {
-              const key = employee._id || index; // unique key for React
-              const displayId = employee.id || (employee._id || employee._id.$oid) || String(employee._id); // show either id or _id
+              // Use databaseId as the unique key (this is the ObjectId string)
+              const key = employee.databaseId || index; 
+              // Display the user-facing integer ID
+              const displayId = employee.id || '-';
 
               return (
                 <tr key={key} style={{ borderBottom: '1px solid #f3f4f6' }}>
