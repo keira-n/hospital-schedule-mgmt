@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.dao.DuplicateKeyException;
 import java.util.List;
 
 @RestController 
@@ -45,6 +45,8 @@ public class EmployeeController {
         try {
             Employee savedEmployee = employeeRepository.save(employee);
             return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+        } catch (DuplicateKeyException e) {
+            return new ResponseEntity<>("Cannot create Employee, duplicate ID. Please put another ID.", HttpStatus.CONFLICT);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

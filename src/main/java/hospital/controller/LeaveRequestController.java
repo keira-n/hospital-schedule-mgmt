@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/leaverequests")
-// We allow both ports to be safe
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 public class LeaveRequestController {
 
@@ -22,7 +21,7 @@ public class LeaveRequestController {
     @PostMapping
     public ResponseEntity<LeaveRequest> requestLeave(@RequestBody LeaveRequest leaveRequest) {
         // --- DEBUG PRINT ---
-        System.out.println("--- DEBUG: Received a Leave Request! ---");
+        System.out.println("--- Received a Leave Request! ---");
         System.out.println("Employee ID: " + leaveRequest.getEmployeeId());
         System.out.println("Reason: " + leaveRequest.getReason());
         // -------------------
@@ -31,11 +30,10 @@ public class LeaveRequestController {
             leaveRequest.setStatus("Pending");
             LeaveRequest savedRequest = leaveRequestRepository.save(leaveRequest);
             
-            System.out.println("--- DEBUG: Successfully saved to database! ---");
+            System.out.println("--- Successfully saved to database! ---");
             return new ResponseEntity<>(savedRequest, HttpStatus.CREATED);
             
         } catch (Exception e) {
-            // Print the real error to your terminal so you can see it
             System.out.println("--- ERROR SAVING LEAVE REQUEST ---");
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
