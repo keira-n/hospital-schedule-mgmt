@@ -5,7 +5,7 @@ function LeaveRequestForm() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [reason, setReason] = useState('');
-  
+
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
@@ -50,66 +50,81 @@ function LeaveRequestForm() {
   };
 
   // --- Styling ---
-  const formStyle = { margin: '2rem auto', padding: '2rem', maxWidth: '500px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '8px', backgroundColor: '#fff' };
+  const formStyle = { margin: 'auto', padding: '2rem', maxWidth: '500px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '8px', backgroundColor: '#fff', width: '100%' };
   const divStyle = { marginBottom: '1rem', display: 'flex', flexDirection: 'column' };
   const labelStyle = { fontWeight: '600', marginBottom: '0.5rem' };
-  const inputStyle = { padding: '0.75rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '1rem' };
+  const inputStyle = { padding: '0.75rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '1rem', outline: 'none' };
   const buttonStyle = { padding: '0.75rem 1.5rem', border: 'none', borderRadius: '4px', backgroundColor: '#007bff', color: 'white', fontSize: '1rem', cursor: 'pointer' };
+  const backgroundImageUrl = "/background.jpg";
 
   return (
-    <form onSubmit={handleSubmit} style={formStyle}>
-      <h2>Submit Leave Request</h2>
-      <p>Please fill out your request. A manager will review it.</p>
-      
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      backgroundImage: `url(${backgroundImageUrl})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center"
+    }}>
+      <form onSubmit={handleSubmit} style={formStyle}>
+        <h2>Submit Leave Request</h2>
+        <p>Please fill out your request.</p>
 
-      <div style={divStyle}>
-        <label style={labelStyle}>Employee ID:</label>
-        <input
-          type="number"
-          value={employeeId}
-          onChange={(e) => setEmployeeId(e.target.value)}
-          required
-          style={inputStyle}
-        />
-      </div>
+        {message && <p style={{ color: 'green' }}>{message}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <div style={divStyle}>
-        <label style={labelStyle}>Reason:</label>
-        <input
-          type="text"
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-          required
-          style={inputStyle}
-        />
-      </div>
+        <div style={divStyle}>
+          <label style={labelStyle}>Employee ID:</label>
+          <input
+            type="number"
+            value={employeeId}
+            onChange={(e) => setEmployeeId(e.target.value)}
+            required
+            style={inputStyle}
+          />
+        </div>
 
-      <div style={divStyle}>
-        <label style={labelStyle}>Start Date:</label>
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          required
-          style={inputStyle}
-        />
-      </div>
+        <div style={divStyle}>
+          <label style={labelStyle}>Reason:</label>
+          <input
+            type="text"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            required
+            style={inputStyle}
+          />
+        </div>
 
-      <div style={divStyle}>
-        <label style={labelStyle}>End Date:</label>
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          required
-          style={inputStyle}
-        />
-      </div>
+        <div style={divStyle}>
+          <label style={labelStyle}>Start Date:</label>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            required
+            style={inputStyle}
+          />
+        </div>
 
-      <button type="submit" style={buttonStyle}>Submit Request</button>
-    </form>
+        <div style={divStyle}>
+          <label style={labelStyle}>End Date:</label>
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            required
+            style={inputStyle}
+          />
+        </div>
+
+        <div style={{ textAlign: 'center' }}>
+          <button type="submit" style={buttonStyle}>Submit Request</button>
+        </div>
+      </form>
+    </div>
+
+
   );
 }
 

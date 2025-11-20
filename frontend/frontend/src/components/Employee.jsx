@@ -36,7 +36,7 @@ function Employee() {
     );
   });
 
-  const containerStyle = { padding: '2rem', margin: '1rem', backgroundColor: 'white' };
+  const containerStyle = { padding: '2rem', margin: '2rem', backgroundColor: 'white', borderRadius: '10px' };
 
   if (loading) 
     return <div style={containerStyle}>Loading employees...</div>;
@@ -90,11 +90,10 @@ function Employee() {
           <tbody>
             {filteredEmp.map((employee, index) => {
               const key = employee._id || index; // unique key for React
-              const displayId = employee.id || (employee._id || employee._id.$oid) || String(employee._id); // show either id or _id
 
               return (
                 <tr key={key} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                  <td style={{ padding: '0.75rem', textAlign: 'center' }}>{displayId}</td>
+                  <td style={{ padding: '0.75rem', textAlign: 'center' }}>{employee.id}</td>
                   <td style={{ padding: '0.75rem' }}>
                     <strong>{employee.name || 'Unknown'}</strong>
                   </td>

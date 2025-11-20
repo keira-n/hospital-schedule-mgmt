@@ -33,33 +33,46 @@ function LogIn({ onLogin }) {
     };
 
     // Styling
-    const formStyle = { margin: '5rem auto', padding: '2rem', maxWidth: '400px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '8px', backgroundColor: '#fff' };
+    const formStyle = { margin: 'auto', padding: '2rem', maxWidth: '400px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '8px', backgroundColor: '#fff', width: '100%' };
     const divStyle = { marginBottom: '1rem', display: 'flex', flexDirection: 'column' };
     const labelStyle = { fontWeight: '600', marginBottom: '0.5rem' };
     const inputStyle = { padding: '0.75rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '1rem' };
     const buttonStyle = { padding: '0.75rem 1.5rem', border: 'none', borderRadius: '4px', backgroundColor: '#007bff', color: 'white', fontSize: '1rem', cursor: 'pointer' };
-
+    const backgroundImageUrl = '/background1.jpg'
     return (
-        <form onSubmit={handleSubmit} style={formStyle}>
-            <h2>Admin Login</h2>
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            backgroundImage: `url(${backgroundImageUrl})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center"
+        }}>
+            <form onSubmit={handleSubmit} style={formStyle}>
+                <h2 style={{textAlign: 'center'}}>Admin Login</h2>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
 
-            <div style={divStyle}>
-                <label style={labelStyle}>Password:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    style={inputStyle}
-                />
+                <div style={divStyle}>
+                    <label style={labelStyle}>Password</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        style={inputStyle}
+                    />
 
-            </div>
+                </div>
 
-            /* This is the "Log In" button */
-            <button type="submit" style={buttonStyle}>Log In</button>
-        </form>
+                <div style={{ textAlign: 'center' }}>
+                    <button type="submit" style={buttonStyle}>Log In</button>
+                </div>
+
+            </form>
+        </div>
+
     );
 }
 

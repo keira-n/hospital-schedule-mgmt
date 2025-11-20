@@ -81,7 +81,7 @@ function AllShifts() {
   // Styling (no changes)
   const containerStyle = { fontFamily: 'Arial, sans-serif', margin: '2rem auto', padding: '2rem', maxWidth: '900px', backgroundColor: '#f9f9f9', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' };
   const tableStyle = { width: '100%', borderCollapse: 'collapse', marginTop: '1.5rem' };
-  const thStyle = { backgroundColor: '#007bff', color: 'white', padding: '0.75rem', border: '1px solid #ddd', textAlign: 'left' };
+  const thStyle = { backgroundColor: '#007bff', color: 'white', padding: '0.75rem', border: '1px solid #ddd', textAlign: 'center' };
   const tdStyle = { padding: '0.75rem', border: '1px solid #ddd', backgroundColor: '#fff' };
   const buttonStyle = { padding: '0.5rem 1rem', border: 'none', borderRadius: '4px', backgroundColor: '#28a745', color: 'white', fontSize: '1rem', cursor: 'pointer', textDecoration: 'none' };
   const headerStyle = { display: 'flex', justifyContent: 'space-between', alignItems: 'center' };
@@ -94,7 +94,7 @@ function AllShifts() {
   return (
     <div style={containerStyle}>
       <div style={headerStyle}>
-        <h2>All Shifts</h2>
+        <h2>SHIFTS</h2>
         <Link to="/shifts/new" style={buttonStyle}>
           Add New Shift
         </Link>
