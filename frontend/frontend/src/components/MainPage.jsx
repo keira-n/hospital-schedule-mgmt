@@ -138,7 +138,7 @@ export default function Dashboard() {
                     </Link>
 
                     <Link to="/login">
-                        <button style={buttonStyleTertiary}>Admin Login</button>
+                        <button style={buttonStyleWarning}>Admin Login</button>
                     </Link>
                 </div>
             </div>

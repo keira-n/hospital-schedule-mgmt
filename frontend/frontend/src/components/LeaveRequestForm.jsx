@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LeaveRequestForm() {
+  // State for employee list
+  const [employees, setEmployees] = useState([]);
+
+  // Form state
   const [employeeId, setEmployeeId] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -8,11 +13,36 @@ function LeaveRequestForm() {
 
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  // --- 1. FETCH EMPLOYEES ON LOAD ---
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/employees');
+        if (!response.ok) {
+            throw new Error("Could not fetch employee list");
+        }
+        const data = await response.json();
+        setEmployees(data);
+      } catch (err) {
+        console.error("Error loading employees:", err);
+        setError("Failed to load employee list. Please try again later.");
+      }
+    };
+
+    fetchEmployees();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setMessage(null);
     setError(null);
+
+    if (!employeeId) {
+        setError("Please select an employee.");
+        return;
+    }
 
     // 1. Create the new request object
     const newRequest = {
@@ -20,7 +50,6 @@ function LeaveRequestForm() {
       startDate,
       endDate,
       reason
-      // The 'status' will be set to "Pending" by your backend
     };
 
     try {
@@ -36,8 +65,10 @@ function LeaveRequestForm() {
         throw new Error(errorText || 'Failed to submit request');
       }
 
-      // 3. Show a success message and clear the form
-      setMessage('Leave request submitted successfully! A manager will review it.');
+      // 3. Success!
+      setMessage('Leave request submitted successfully!');
+
+      // Clear form
       setEmployeeId('');
       setStartDate('');
       setEndDate('');
@@ -50,39 +81,60 @@ function LeaveRequestForm() {
   };
 
   // --- Styling ---
-  const formStyle = { margin: 'auto', padding: '2rem', maxWidth: '500px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '8px', backgroundColor: '#fff', width: '100%' };
+  const pageStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 'calc(100vh - 60px)',
+    backgroundImage: `url("/hospital-bg.jpg")`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    padding: "2rem"
+  };
+
+  const formStyle = {
+    padding: '2rem',
+    maxWidth: '500px',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+    borderRadius: '10px',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    width: '100%'
+  };
+
   const divStyle = { marginBottom: '1rem', display: 'flex', flexDirection: 'column' };
   const labelStyle = { fontWeight: '600', marginBottom: '0.5rem' };
-  const inputStyle = { padding: '0.75rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '1rem', outline: 'none' };
-  const buttonStyle = { padding: '0.75rem 1.5rem', border: 'none', borderRadius: '4px', backgroundColor: '#007bff', color: 'white', fontSize: '1rem', cursor: 'pointer' };
-  const backgroundImageUrl = "/background.jpg";
+  const inputStyle = { padding: '0.75rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '1rem', outline: 'none', backgroundColor: 'white' };
+  const buttonStyle = { padding: '0.75rem 1.5rem', border: 'none', borderRadius: '4px', backgroundColor: '#007bff', color: 'white', fontSize: '1rem', cursor: 'pointer', width: '100%', marginTop: '1rem' };
 
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '100vh',
-      backgroundImage: `url(${backgroundImageUrl})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center"
-    }}>
+    <div style={pageStyle}>
       <form onSubmit={handleSubmit} style={formStyle}>
-        <h2>Submit Leave Request</h2>
-        <p>Please fill out your request.</p>
+        <h2 style={{textAlign: 'center', marginBottom: '1.5rem'}}>Submit Leave Request</h2>
+        <p style={{textAlign: 'center', marginBottom: '2rem', color: '#555'}}>Please fill out your request details below.</p>
 
-        {message && <p style={{ color: 'green' }}>{message}</p>}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {message && <div style={{ padding: '10px', backgroundColor: '#d4edda', color: '#155724', borderRadius: '4px', marginBottom: '1rem' }}>{message}</div>}
+        {error && <div style={{ padding: '10px', backgroundColor: '#f8d7da', color: '#721c24', borderRadius: '4px', marginBottom: '1rem' }}>{error}</div>}
 
+        {/* --- 2. EMPLOYEE SELECTION DROPDOWN --- */}
         <div style={divStyle}>
-          <label style={labelStyle}>Employee ID:</label>
-          <input
-            type="number"
+          <label style={labelStyle}>Employee:</label>
+          <select
             value={employeeId}
             onChange={(e) => setEmployeeId(e.target.value)}
             required
             style={inputStyle}
-          />
+          >
+            <option value="">-- Select Your Name --</option>
+            {employees.map(emp => {
+                // Use 'employeeId' from your Java object, or fallback to 'id'
+                const empId = emp.employeeId || emp.id;
+                return (
+                    <option key={emp.databaseId || emp._id || empId} value={empId}>
+                        {emp.name} (ID: {empId}) - {emp.role}
+                    </option>
+                );
+            })}
+          </select>
         </div>
 
         <div style={divStyle}>
@@ -93,6 +145,7 @@ function LeaveRequestForm() {
             onChange={(e) => setReason(e.target.value)}
             required
             style={inputStyle}
+            placeholder="e.g., Family Vacation"
           />
         </div>
 
@@ -118,13 +171,9 @@ function LeaveRequestForm() {
           />
         </div>
 
-        <div style={{ textAlign: 'center' }}>
-          <button type="submit" style={buttonStyle}>Submit Request</button>
-        </div>
+        <button type="submit" style={buttonStyle}>Submit Request</button>
       </form>
     </div>
-
-
   );
 }
 
