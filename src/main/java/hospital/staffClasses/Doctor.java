@@ -4,7 +4,6 @@ package hospital.staffClasses;
 public class Doctor<S> extends Employee {
 
     private S specialtyArea;   // Generic
-    private boolean onDuty;
     private boolean emergencyCall;
 
     public Doctor() {
@@ -16,7 +15,6 @@ public class Doctor<S> extends Employee {
 
         super(id, name, department, role);
         this.specialtyArea = specialtyArea;
-        this.onDuty = false;
         this.emergencyCall = emergencyCall;
     }
 
@@ -24,8 +22,6 @@ public class Doctor<S> extends Employee {
     public S getSpecialtyArea() { return specialtyArea; }
     public void setSpecialtyArea(S specialtyArea) { this.specialtyArea = specialtyArea; }
 
-    public boolean isOnDuty() { return onDuty; }
-    public void setOnDuty(boolean onDuty) { this.onDuty = onDuty; }
 
     public boolean isEmergencyCall() { return emergencyCall; }
     public void setEmergencyCall(boolean emergencyCall) { this.emergencyCall = emergencyCall; }
@@ -33,20 +29,13 @@ public class Doctor<S> extends Employee {
     @Override
     public String getDetails() {
         return "Doctor: " + getName() +
-                " Department: " + getDepartment() +
-                " Specialty: " + specialtyArea +
-                " On Duty: " + (onDuty ? "Yes" : "No") +
-                " Emergency Call: " + (emergencyCall ? "Available" : "Not Available");
+                " , Department: " + getDepartment() +
+                " , Emergency Call: " + (emergencyCall ? "Available" : "Not Available");
     }
 
     @Override
     public String getWorkingDays() {
         return "Doctors typically work 5 days per week with rotating on-call duties.";
-    }
-
-    public void markOnDuty(boolean duty) {
-        this.onDuty = duty;
-        System.out.println(getName() + (duty ? " is on duty." : " is off duty."));
     }
 }
 

@@ -123,7 +123,7 @@ function AddShiftForm() {
           >
             <option value="">-- Select an Employee --</option>
             {employees.map(emp => (
-              <option key={emp.objectID} value={emp.id}>
+              <option key={emp.databaseId} value={emp.id}>
                 {emp.name} (ID: {emp.id})
               </option>
             ))}
