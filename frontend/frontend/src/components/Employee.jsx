@@ -26,7 +26,6 @@ function Employee() {
       });
   }, []);
 
-  // Filter
   const filteredEmp = employees.filter((emp) => {
     const term = searchTerm.toLowerCase();
     return (
@@ -86,7 +85,6 @@ function Employee() {
 
           <tbody>
             {filteredEmp.map((employee, index) => {
-              // Use databaseId as the unique key (this is the ObjectId string)
               const key = employee.databaseId || index; 
 
               return (

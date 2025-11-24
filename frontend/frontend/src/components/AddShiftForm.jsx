@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function AddShiftForm() {
-  // --- 1. NEW STATE ---
   const [employees, setEmployees] = useState([]); // To hold the full employee list
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(''); // The ID of the selected employee
 
@@ -15,9 +14,7 @@ function AddShiftForm() {
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
 
-  // --- 2. FETCH ALL EMPLOYEES ON PAGE LOAD ---
   useEffect(() => {
-    // This fetches your working employee list
     fetch('http://localhost:8080/api/employees')
       .then(response => response.json())
       .then(data => {
@@ -27,23 +24,19 @@ function AddShiftForm() {
         console.error("Failed to fetch employees:", error);
         setMessage("Failed to load employee list. Cannot add shifts.");
       });
-  }, []); // Empty array means run once on load
+  }, []); 
 
-  // --- 3. NEW FUNCTION ---
-  // This runs when you select an employee from the dropdown
   const handleEmployeeChange = (e) => {
     const newEmployeeId = e.target.value;
     setSelectedEmployeeId(newEmployeeId);
 
     if (newEmployeeId) {
-      // Find the employee object from our list
       const selectedEmp = employees.find(emp => emp.id == newEmployeeId);
       if (selectedEmp) {
-        // Auto-fill the role!
         setRole(selectedEmp.role);
       }
     } else {
-      setRole(''); // Clear the role if no employee is selected
+      setRole(''); 
     }
   };
 
@@ -52,11 +45,11 @@ function AddShiftForm() {
     setMessage(null);
 
     const newShift = {
-      employeeId: parseInt(selectedEmployeeId, 10), // Send the selected ID
+      employeeId: parseInt(selectedEmployeeId, 10), 
       date: date,
       startTime: startTime,
       endTime: endTime,
-      role: role // Send the auto-filled role
+      role: role 
     };
 
     try {
@@ -79,27 +72,47 @@ function AddShiftForm() {
     }
   };
 
-  // --- Styling ---
-  const formStyle = { margin: 'auto', padding: '2rem', maxWidth: '500px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '8px', backgroundColor: '#fff', width: '100%' };
+  // --- STYLING ---
+  const backgroundImageUrl = '/background1.jpg';
+
+  const formStyle = { 
+    margin: 'auto', 
+    padding: '2rem', 
+    maxWidth: '500px', 
+    boxShadow: '0 8px 32px rgba(0,0,0,0.1)', 
+    borderRadius: '12px', 
+    backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+    width: '100%',
+    backdropFilter: 'blur(5px)'
+  };
+
   const divStyle = { marginBottom: '1rem', display: 'flex', flexDirection: 'column' };
-  const labelStyle = { fontWeight: '600', marginBottom: '0.5rem' };
+  const labelStyle = { fontWeight: '600', marginBottom: '0.5rem', color: '#333' };
   const inputStyle = { padding: '0.75rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '1rem', backgroundColor: '#fff' };
-  const readOnlyInputStyle = { ...inputStyle, backgroundColor: '#eee' }; // Style for the disabled role
-  const buttonStyle = { padding: '0.75rem 1.5rem', border: 'none', borderRadius: '4px', backgroundColor: '#007bff', color: 'white', fontSize: '1rem', cursor: 'pointer' };
+  const readOnlyInputStyle = { ...inputStyle, backgroundColor: '#f3f4f6', color: '#555', cursor: 'not-allowed' }; 
+  const buttonStyle = { padding: '0.75rem 1.5rem', border: 'none', borderRadius: '4px', backgroundColor: '#007bff', color: 'white', fontSize: '1rem', cursor: 'pointer', fontWeight: 'bold', marginTop: '1rem' };
 
   return (
     <div style={{
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      minHeight: '100vh'
+      minHeight: '100vh',
+      width: '100%',
+      backgroundImage: `url(${backgroundImageUrl})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed'
     }}>
       <form onSubmit={handleSubmit} style={formStyle}>
-        <h2>Add New Shift</h2>
+        <h2 style={{ textAlign: 'center', marginBottom: '1.5rem', color: '#333' }}>Add New Shift</h2>
 
-        {message && <p style={{ color: 'red' }}>{message}</p>}
+        {message && (
+          <div style={{ padding: '10px', backgroundColor: '#ffebee', color: '#c62828', borderRadius: '4px', marginBottom: '1rem' }}>
+            {message}
+          </div>
+        )}
 
-        {/* --- 4. THIS IS THE NEW DROPDOWN --- */}
         <div style={divStyle}>
           <label style={labelStyle}>Employee</label>
           <select
@@ -110,15 +123,13 @@ function AddShiftForm() {
           >
             <option value="">-- Select an Employee --</option>
             {employees.map(emp => (
-              // The key is the databaseId, the value is the user-facing id
-              <option key={emp.databaseId} value={emp.id}>
+              <option key={emp.objectID} value={emp.id}>
                 {emp.name} (ID: {emp.id})
               </option>
             ))}
           </select>
         </div>
 
-        {/* --- 5. THIS IS THE AUTO-FILLED ROLE --- */}
         <div style={divStyle}>
           <label style={labelStyle}>Role</label>
           <input
@@ -126,7 +137,8 @@ function AddShiftForm() {
             value={role}
             required
             style={readOnlyInputStyle}
-            readOnly // This makes it a "read-only" field
+            readOnly 
+            placeholder="Auto-filled"
           />
         </div>
 

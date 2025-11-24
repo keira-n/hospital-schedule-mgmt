@@ -25,18 +25,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 })
 public abstract class Employee implements WorkSchedule {
 
-    // 1. The MongoDB ID (internal, hidden)
     @Id
-    private String databaseId;
+    private String objectID; 
 
-    // 2. Your Employee ID (visible, number)
     private int id;
 
     private String name;
     private String department;
     private String role;
 
-    // Constructor takes 'int id'
     public Employee(int id, String name, String department, String role) {
         this.id = id;
         this.name = name;
@@ -47,14 +44,13 @@ public abstract class Employee implements WorkSchedule {
     public Employee() {
     }
 
-    // --- Getters and Setters ---
 
-    public String getDatabaseId() {
-        return databaseId;
+    public String getobjectID() {
+        return objectID;
     }
 
-    public void setDatabaseId(String databaseId) {
-        this.databaseId = databaseId;
+    public void setobjectID(String objectID) {
+        this.objectID = objectID;
     }
 
     public int getId() {

@@ -11,30 +11,19 @@ import "./App.css";
 import LeaveRequestForm from "./components/LeaveRequestForm.jsx";
 import {useState} from "react";
 
-// "Guard" for admin page
 const ProtectedRoutes = ({ isLoggedIn }) => {
     if (!isLoggedIn) {
-        // If not logged in, redirect to login
         return <Navigate to="/login" replace />;
     }
-    // If logged in, show the child page (e.g., /admin)
     return <Outlet />;
 };
 
 function App() {
-    // This is the "is logged in?" memory
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
-    // This function is passed to the Login page
     const handleLogin = () => {
         setIsLoggedIn(true);
-    };
-
-    // This function is for the "Log Out" button
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-        navigate("/"); // Go back to the public main view
     };
   return (
     <div className="App">

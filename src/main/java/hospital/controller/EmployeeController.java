@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController 
 @RequestMapping("/api/employees") 
-// This allows both ports
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 public class EmployeeController {
 
@@ -30,16 +29,13 @@ public class EmployeeController {
         
         System.out.println("--- DEBUG: getAllEmployees() method was called! ---");
         
-        // Create a new query
         Query query = new Query();
 
-        // Tell the query to sort by your "id" field, Ascending
         query.with(Sort.by(Sort.Direction.ASC, "id"));
 
         return mongoTemplate.find(query, Object.class, "employee");
     }
 
-    // Pending
     @PostMapping
     public ResponseEntity<?> createEmployee(@RequestBody Employee employee) {
         try {

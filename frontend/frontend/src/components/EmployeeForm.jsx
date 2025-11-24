@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function EmployeeForm() {
-  const [id, setId] = useState(''); // This is for the form
+  const [id, setId] = useState(''); 
   const [name, setName] = useState('');
   const [department, setDepartment] = useState('Cardiology');
   const [role, setRole] = useState('Nurse');
@@ -53,12 +53,24 @@ function EmployeeForm() {
     }
   };
 
-  // --- Styling (no changes) ---
-  const formStyle = { margin: 'auto', padding: '2rem', maxWidth: '500px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '8px', backgroundColor: '#fff', width: '100%' };
+  // --- Styling ---
+  const backgroundImageUrl = '/background1.jpg';
+
+  const formStyle = { 
+    margin: 'auto', 
+    padding: '2rem', 
+    maxWidth: '500px', 
+    boxShadow: '0 8px 32px rgba(0,0,0,0.1)', 
+    borderRadius: '12px', 
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    width: '100%',
+    backdropFilter: 'blur(4px)'
+  };
+
   const divStyle = { marginBottom: '1rem', display: 'flex', flexDirection: 'column' };
-  const labelStyle = { fontWeight: '600', marginBottom: '0.5rem' };
+  const labelStyle = { fontWeight: '600', marginBottom: '0.5rem', color: '#333' };
   const inputStyle = { padding: '0.75rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '1rem', backgroundColor: '#fff', outline: 'none' };
-  const buttonStyle = { padding: '0.75rem 1.5rem', border: 'none', borderRadius: '4px', backgroundColor: '#007bff', color: 'white', fontSize: '1rem', cursor: 'pointer' };
+  const buttonStyle = { padding: '0.75rem 1.5rem', border: 'none', borderRadius: '4px', backgroundColor: '#007bff', color: 'white', fontSize: '1rem', cursor: 'pointer', fontWeight: 'bold' };
   const checkboxDivStyle = { ...divStyle, flexDirection: 'row', alignItems: 'center', marginBottom: '1rem' };
   const checkboxLabelStyle = { ...labelStyle, marginBottom: '0', marginLeft: '0.5rem' };
   const checkboxInputStyle = { width: '1.25rem', height: '1.25rem' };
@@ -68,21 +80,31 @@ function EmployeeForm() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      minHeight: '100vh'
+      minHeight: '100vh',
+      width: '100%',
+      backgroundImage: `url(${backgroundImageUrl})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed'
     }}>
       <form onSubmit={handleSubmit} style={formStyle}>
-        <h2>Add New Employee</h2>
+        <h2 style={{ textAlign: 'center', marginBottom: '1.5rem', color: '#333' }}>Add New Employee</h2>
 
-        {message && <p style={{ color: 'red' }}>{message}</p>}
+        {message && (
+          <div style={{ padding: '10px', backgroundColor: '#ffebee', color: '#c62828', borderRadius: '4px', marginBottom: '1rem' }}>
+            {message}
+          </div>
+        )}
 
         <div style={divStyle}>
           <label style={labelStyle}>Employee ID</label>
           <input
-            type="text"
+            type="number"
             value={id}
-            onChange={(e) => setId(e.target.value)} // This is still the form's 'id'
+            onChange={(e) => setId(e.target.value)} 
             required
             style={inputStyle}
+            placeholder="e.g. 101"
           />
         </div>
 
@@ -94,6 +116,7 @@ function EmployeeForm() {
             onChange={(e) => setName(e.target.value)}
             required
             style={inputStyle}
+            placeholder="Full Name"
           />
         </div>
 
@@ -151,13 +174,12 @@ function EmployeeForm() {
           </div>
         )}
 
-        <div style={{ textAlign: 'center' }}>
-          <button type="submit" style={buttonStyle}>Submit</button>
+        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+          <button type="submit" style={buttonStyle}>Create Employee</button>
         </div>
 
       </form>
     </div>
-
   );
 }
 

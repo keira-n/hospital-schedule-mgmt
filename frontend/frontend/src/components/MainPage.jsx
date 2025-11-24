@@ -2,13 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const backgroundImageUrl = "/hospital-bg.jpg";
+const presentImageUrl = "/red_present.png"; 
 
-const SnowStyles = () => (
+const AnimationStyles = () => (
     <style>
         {`
       @keyframes fall {
         0% {
-          transform: translateY(-10vh);
+          transform: translateY(-10vh) rotate(0deg);
           opacity: 0;
         }
         10% {
@@ -18,33 +19,42 @@ const SnowStyles = () => (
           opacity: 1;
         }
         100% {
-          transform: translateY(110vh);
+          transform: translateY(110vh) rotate(360deg);
           opacity: 0;
         }
       }
 
       .snowflake {
         position: absolute;
-        top: 0;
+        top: -10px;
         left: 0;
         width: 6px;
         height: 6px;
         background: white;
         border-radius: 50%;
         box-shadow: 0 0 5px white, 0 0 10px white;
-        
-        /* This is where the animation is applied */
+        animation: fall linear infinite;
+      }
+
+      .present {
+        position: absolute;
+        top: -50px; /* Start higher because presents are bigger */
+        background-image: url('${presentImageUrl}');
+        background-size: contain;
+        background-repeat: no-repeat;
+        /* Using the same fall animation, but the rotate in keyframes helps them tumble */
         animation: fall linear infinite;
       }
       
-      .snow-container {
+      .effects-container {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        overflow: hidden; /* Hide snowflakes that are off-screen */
-        z-index: 1; /* Make sure snow is on top of background */
+        overflow: hidden;
+        z-index: 1;
+        pointer-events: none; /* Ensures clicks pass through to buttons */
       }
     `}
     </style>
@@ -54,20 +64,40 @@ const Snowflakes = () => {
     const snowflakeArray = Array(100).fill();
 
     return (
-        <div className="snow-container">
+        <div className="effects-container">
             {snowflakeArray.map((_, index) => {
                 const style = {
-                    left: `${Math.random() * 100}vw`, // Random horizontal position
-                    animationDuration: `${Math.random() * 5 + 8}s`, // Random speed
+                    left: `${Math.random() * 100}vw`,
+                    animationDuration: `${Math.random() * 5 + 8}s`,
                     animationDelay: `${Math.random() * 5}s`,
                     opacity: `${Math.random() * 0.7 + 0.3}`
                 };
-                return <div key={index} className="snowflake" style={style} />;
+                return <div key={`snow-${index}`} className="snowflake" style={style} />;
             })}
         </div>
     );
 };
 
+const Presents = () => {
+    const presentArray = Array(10).fill();
+
+    return (
+        <div className="effects-container">
+            {presentArray.map((_, index) => {
+                const size = Math.random() * 20 + 30; 
+                const style = {
+                    left: `${Math.random() * 95}vw`,
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    animationDuration: `${Math.random() * 4 + 6}s`, 
+                    animationDelay: `${Math.random() * 10}s`, 
+                    opacity: 0.9
+                };
+                return <div key={`present-${index}`} className="present" style={style} />;
+            })}
+        </div>
+    );
+};
 
 export default function Dashboard() {
     const containerStyle = {
@@ -82,10 +112,10 @@ export default function Dashboard() {
         justifyContent: "center",
         padding: "2rem",
         boxSizing: "border-box",
-        position: "relative"
+        position: "relative",
+        overflow: "hidden" 
     };
 
-    // Style for the content box (the text)
     const contentStyle = {
         textAlign: "center",
         padding: "2.5rem 3rem",
@@ -93,9 +123,8 @@ export default function Dashboard() {
         borderRadius: "10px",
         boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
         position: "relative",
-        zIndex: 2
+        zIndex: 10 
     };
-
 
     const buttonStyle = {
         display: 'inline-block',
@@ -122,11 +151,13 @@ export default function Dashboard() {
         backgroundColor: '#ffc107'
     };
 
-
     return (
         <div style={containerStyle}>
-            <SnowStyles />
+            <AnimationStyles />
+            
+            {/* Render both effects */}
             <Snowflakes />
+            <Presents />
 
             <div style={contentStyle}>
                 <h1 style={{ color: '#333', marginTop: 0 }}>Hospital Staff Portal</h1>

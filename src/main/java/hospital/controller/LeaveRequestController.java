@@ -20,11 +20,9 @@ public class LeaveRequestController {
 
     @PostMapping
     public ResponseEntity<LeaveRequest> requestLeave(@RequestBody LeaveRequest leaveRequest) {
-        // --- DEBUG PRINT ---
         System.out.println("--- Received a Leave Request! ---");
         System.out.println("Employee ID: " + leaveRequest.getEmployeeId());
         System.out.println("Reason: " + leaveRequest.getReason());
-        // -------------------
 
         try {
             leaveRequest.setStatus("Pending");
@@ -34,7 +32,7 @@ public class LeaveRequestController {
             return new ResponseEntity<>(savedRequest, HttpStatus.CREATED);
             
         } catch (Exception e) {
-            System.out.println("--- ERROR SAVING LEAVE REQUEST ---");
+            System.out.println("ERROR SAVING LEAVE REQUEST");
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

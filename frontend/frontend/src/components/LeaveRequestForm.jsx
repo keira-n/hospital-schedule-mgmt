@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function LeaveRequestForm() {
-  // State for employee list
   const [employees, setEmployees] = useState([]);
-
-  // Form state
   const [employeeId, setEmployeeId] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -15,7 +12,6 @@ function LeaveRequestForm() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // --- 1. FETCH EMPLOYEES ON LOAD ---
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -53,7 +49,6 @@ function LeaveRequestForm() {
     };
 
     try {
-      // 2. Send it to your backend API
       const response = await fetch('http://localhost:8080/api/leaverequests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -65,10 +60,8 @@ function LeaveRequestForm() {
         throw new Error(errorText || 'Failed to submit request');
       }
 
-      // 3. Success!
       setMessage('Leave request submitted successfully!');
 
-      // Clear form
       setEmployeeId('');
       setStartDate('');
       setEndDate('');
@@ -80,7 +73,7 @@ function LeaveRequestForm() {
     }
   };
 
-  // --- Styling ---
+
   const pageStyle = {
     display: 'flex',
     justifyContent: 'center',
@@ -114,8 +107,6 @@ function LeaveRequestForm() {
 
         {message && <div style={{ padding: '10px', backgroundColor: '#d4edda', color: '#155724', borderRadius: '4px', marginBottom: '1rem' }}>{message}</div>}
         {error && <div style={{ padding: '10px', backgroundColor: '#f8d7da', color: '#721c24', borderRadius: '4px', marginBottom: '1rem' }}>{error}</div>}
-
-        {/* --- 2. EMPLOYEE SELECTION DROPDOWN --- */}
         <div style={divStyle}>
           <label style={labelStyle}>Employee:</label>
           <select
@@ -126,7 +117,6 @@ function LeaveRequestForm() {
           >
             <option value="">-- Select Your Name --</option>
             {employees.map(emp => {
-                // Use 'employeeId' from your Java object, or fallback to 'id'
                 const empId = emp.employeeId || emp.id;
                 return (
                     <option key={emp.databaseId || emp._id || empId} value={empId}>

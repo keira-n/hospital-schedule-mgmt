@@ -69,7 +69,7 @@ function AllShifts() {
         throw new Error('Failed to delete shift.');
       }
       
-      fetchShifts(); // Refresh the list
+      fetchShifts();
 
     } catch (error) {
       console.error('Error deleting shift:', error);
@@ -77,13 +77,9 @@ function AllShifts() {
     }
   };
   
-  // --- STYLES ---
-
-  // 1. New Page Wrapper with background1.jpg
   const pageWrapperStyle = {
     minHeight: '100vh',
     width: '100%',
-    // Using background1.jpg as requested
     backgroundImage: `url('/background1.jpg')`, 
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -96,12 +92,10 @@ function AllShifts() {
     paddingBottom: '3rem'
   };
 
-  // 2. Updated Container Style for Glassmorphism effect
   const containerStyle = { 
     fontFamily: 'Arial, sans-serif', 
     width: '95%',
     maxWidth: '1000px', 
-    // Slight transparency
     backgroundColor: 'rgba(249, 249, 249, 0.95)', 
     borderRadius: '12px', 
     boxShadow: '0 8px 32px rgba(0,0,0,0.15)', 
@@ -111,7 +105,6 @@ function AllShifts() {
 
   const tableStyle = { width: '100%', borderCollapse: 'collapse', marginTop: '1.5rem' };
   const thStyle = { backgroundColor: '#007bff', color: 'white', padding: '0.75rem', border: '1px solid #ddd', textAlign: 'center' };
-  // Made cells slightly transparent to match theme
   const tdStyle = { padding: '0.75rem', border: '1px solid #ddd', backgroundColor: 'rgba(255, 255, 255, 0.8)' };
   
   const buttonStyle = { padding: '0.5rem 1rem', border: 'none', borderRadius: '4px', backgroundColor: '#28a745', color: 'white', fontSize: '1rem', cursor: 'pointer', textDecoration: 'none' };

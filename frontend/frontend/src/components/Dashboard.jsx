@@ -57,8 +57,8 @@ const Snowflakes = () => {
     <div className="snow-container">
       {snowflakeArray.map((_, index) => {
         const style = {
-          left: `${Math.random() * 100}vw`, // Random horizontal position
-          animationDuration: `${Math.random() * 5 + 8}s`, // Random speed 
+          left: `${Math.random() * 100}vw`, 
+          animationDuration: `${Math.random() * 5 + 8}s`,
           animationDelay: `${Math.random() * 5}s`, 
           opacity: `${Math.random() * 0.7 + 0.3}` 
         };
@@ -85,7 +85,6 @@ export default function Dashboard() {
     position: "relative" 
   };
 
-  // Style for the content box (the text)
   const contentStyle = {
     textAlign: "center",
     padding: "2.5rem 3rem",

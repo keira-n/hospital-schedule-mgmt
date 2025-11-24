@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-// Helper function to format the date
 const formatDate = (dateValue) => {
   if (!dateValue) return 'N/A';
   try {
     const date = new Date(dateValue);
     const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   } catch (error) {
@@ -19,11 +18,9 @@ function AllLeaveRequests() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Function to fetch all requests
   const fetchRequests = async () => {
     setError(null);
     try {
-      // Note: Ensure your backend allows CORS if running on different ports
       const response = await fetch('http://localhost:8080/api/leaverequests');
       if (!response.ok) {
         throw new Error('Failed to fetch leave requests.');
@@ -76,18 +73,14 @@ function AllLeaveRequests() {
     }
   };
 
-  // --- STYLES ---
-
-  // 1. New Page Wrapper: Holds the background image and centers the content
   const pageWrapperStyle = {
     minHeight: '100vh',
     width: '100%',
-    // Assuming background-2.png is in your public folder
     backgroundImage: `url('/background2.jpg')`, 
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed', // Keeps background still while scrolling
+    backgroundAttachment: 'fixed', 
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -95,17 +88,15 @@ function AllLeaveRequests() {
     paddingBottom: '3rem'
   };
 
-  // 2. Container Style: Modified to be a "card" sitting on top of the background
   const containerStyle = { 
     fontFamily: 'Arial, sans-serif', 
     width: '95%',
     maxWidth: '1000px', 
-    // Added slight transparency (0.95) so the background fits in better
     backgroundColor: 'rgba(249, 249, 249, 0.95)', 
     borderRadius: '12px', 
-    boxShadow: '0 8px 32px rgba(0,0,0,0.15)', // Softer, deeper shadow
+    boxShadow: '0 8px 32px rgba(0,0,0,0.15)', 
     padding: '2rem',
-    backdropFilter: 'blur(5px)' // Adds a blur effect behind the container (modern glassmorphism)
+    backdropFilter: 'blur(5px)' 
   };
 
   const tableStyle = { width: '100%', borderCollapse: 'collapse', marginTop: '1.5rem' };

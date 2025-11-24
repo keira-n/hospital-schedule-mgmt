@@ -2,7 +2,7 @@ package hospital.schedule;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.fasterxml.jackson.annotation.JsonFormat; // <-- 1. IMPORT THIS
+import com.fasterxml.jackson.annotation.JsonFormat; 
 
 import java.util.Date;
 
@@ -13,9 +13,6 @@ public class LeaveRequest {
     private String id; 
 
     private int employeeId;
-    
-    // --- 2. ADD THESE ANNOTATIONS ---
-    // This tells Java how to read the date string from your React form
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate; 
     
@@ -37,7 +34,6 @@ public class LeaveRequest {
         this.reason = reason;
     }
 
-    // --- Getters and Setters (No changes needed) ---
     
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
